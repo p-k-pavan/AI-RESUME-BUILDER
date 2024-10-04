@@ -1,6 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom"
 import "./App.css"
 import { useUser } from "@clerk/clerk-react"
+import Header from "./components/custom/Header";
 
 
 export default function App() {
@@ -12,6 +13,7 @@ export default function App() {
   }
   return (
    <>
+    <Header />
     <Outlet />
    </>
 
