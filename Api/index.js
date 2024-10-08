@@ -1,19 +1,31 @@
-import express from "express"
-import dotenv from "dotenv"
-import mongoose from "mongoose"
+import express from "express";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import resumeRouter from "./routers/resume.route.js";
+import cors from "cors";
 
 const app = express();
 dotenv.config();
 
+app.use(express.json());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true 
+}));
+
 mongoose.connect(process.env.MONGOOSE_URL)
-.then(()=>{
-    console.log("Connect to MongoDB");
-})
-.catch((err)=>{
-    console.log(err.message);
-})
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err.message);
+  });
+
+app.use("/api/resume", resumeRouter);
 
 
-app.listen(5222,()=>{
-    console.log("Api listening at port 5222")
-})
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`API listening on port ${PORT}`);
+});
